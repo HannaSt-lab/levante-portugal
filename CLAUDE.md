@@ -1,53 +1,87 @@
-# CLAUDE.md — Portugal Tours
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project
-Portugal tour guide business — booking website + automation stack.
-Brand identity TBD. Build for Hanna to run herself + use as Upwork portfolio piece.
+LEVANTE — *Off-Script Portugal.* Premium custom tour operator, Lisbon-based, run by Hanna. Pages: `index.html` (home), `tours.html` (tour index), individual tour pages (`/tours/*.html`), `blog.html`, `about.html`, `contact.html`.
 
-## Always Do First
-- **Invoke the `frontend-design` skill** before writing any frontend code, every session, no exceptions.
+## Tech Stack
+| Layer | Tool |
+|---|---|
+| Website | HTML/CSS/JS · Vercel |
+| CRM | GoHighLevel (pipeline, email/SMS sequences, internal calendar) |
+| Booking | Calendly (client-facing consultation) + Stripe (deposit + payment) |
+| Automation | n8n (connects everything) |
+| Notifications | Gmail (customer emails) + Slack (ops alerts) + WhatsApp/Twilio (confirmations) |
+| Social | Instagram · Facebook · Pinterest · YouTube Shorts · TikTok |
+| Content machine | Kie.ai video → n8n → YouTube + Reels + Pinterest (weekly) |
+| SEO | Schema.org TourOperator · Google Business Profile · AI blog pipeline |
+| Payments | Stripe (deposit flow) |
 
-## Local Server
-- **Always serve on localhost** — never screenshot a `file:///` URL.
-- Start the dev server: `node serve.mjs` (serves the project root at `http://localhost:3000`)
-- `serve.mjs` lives in the project root. Start it in the background before taking any screenshots.
-- If the server is already running, do not start a second instance.
+## Skills — Invoke Before Acting
+| Task | Skill |
+|---|---|
+| Any frontend code | `frontend-design` — mandatory, every session |
+| Image generation | `nano-banana-images` |
+| Kie.ai video/image | `kie-ai-integration` |
+| Diagrams | `excalidraw-diagram` or `excalidraw-visuals` |
+| Visualizations | `visualizations` |
+| HubSpot work | `hubspot` |
 
-## Screenshot Workflow
-- Puppeteer is installed in `node_modules`. Chrome at `C:/Program Files/Google/Chrome/Application/chrome.exe`
-- **Always screenshot from localhost:** `node screenshot.mjs http://localhost:3000`
-- Screenshots are saved automatically to `./temporary screenshots/screenshot-N.png` (auto-incremented, never overwritten).
-- Optional label suffix: `node screenshot.mjs http://localhost:3000 label` → saves as `screenshot-N-label.png`
-- After screenshotting, read the PNG with the Read tool — Claude can see and analyze the image directly.
+## Dev Commands
+```bash
+node serve.mjs                                             # localhost:3000
+node screenshot.mjs http://localhost:3000                  # screenshot
+node screenshot.mjs http://localhost:3000/tours.html label # with label
+```
+- Never screenshot `file:///` — always localhost
+- Screenshots → `./temporary screenshots/screenshot-N.png`
+- Read PNG with Read tool after shooting. Do at least 2 compare rounds.
+- Chrome: `C:/Program Files/Google/Chrome/Application/chrome.exe`
 
-## Reference Images
-- If a reference image is provided: match layout, spacing, typography, and color exactly.
-- If no reference image: design from scratch with high craft (see guardrails below).
-- Screenshot, compare, fix, re-screenshot. At least 2 rounds. Stop only when no visible differences remain.
+## Image Processing
+```js
+// sharp: never read+write same file — use tmp then rename
+await sharp(input).extract({...}).toFile(input + '.tmp.png');
+fs.renameSync(input + '.tmp.png', input);
+```
 
-## Output Defaults
-- Single `index.html` file, all styles inline, unless user says otherwise
-- Tailwind CSS via CDN: `<script src="https://cdn.tailwindcss.com"></script>`
-- Placeholder images: `https://placehold.co/WIDTHxHEIGHT`
-- Mobile-first responsive
+## Brand — LEVANTE
+| | Value |
+|---|---|
+| Deep black | `#0D0D0D` |
+| Warm cream | `#F5EFE0` |
+| Gold | `#C9A96E` |
+| Terracotta | `#C47A5A` |
+| Atlantic blue | `#2C4A6E` |
 
-## Brand Assets
-- Always check the `brand_assets/` folder before designing.
-- If logo is present, use it. If color palette defined, use exact values.
+Fonts: **Cormorant Garamond** italic (display headings) · **Playfair Display** (sub-headings) · **Inter Light** (body) · **Cormorant Garamond** small caps (labels)
 
-## Anti-Generic Guardrails
-- **Colors:** Never use default Tailwind palette. Pick a custom brand color and derive from it.
-- **Shadows:** Never use flat `shadow-md`. Use layered, color-tinted shadows.
-- **Typography:** Never use the same font for headings and body. Pair display/serif with clean sans.
-- **Gradients:** Layer multiple radial gradients. Add grain/texture via SVG noise filter.
-- **Animations:** Only animate `transform` and `opacity`. Never `transition-all`.
-- **Interactive states:** Every clickable element needs hover, focus-visible, and active states.
-- **Spacing:** Use intentional, consistent spacing tokens.
-- **Depth:** Surfaces should have a layering system (base → elevated → floating).
+Tone: Assured, insider, sensory. No exclamation marks. No "hidden gems" or "breathtaking views." Use specific nouns. Short + short + longer sentence rhythm.
 
-## Hard Rules
-- Do not add sections, features, or content not in the reference
-- Do not "improve" a reference design — match it
-- Do not stop after one screenshot pass
-- Do not use `transition-all`
-- Do not use default Tailwind blue/indigo as primary color
+Assets in `brand_assets/` — use real assets, never placeholders where files exist.
+
+## n8n Workflows (7 total)
+| # | Name | Trigger |
+|---|---|---|
+| 1 | Lead capture | Website contact form → GHL + Gmail + Slack |
+| 2 | Facebook Lead Ad | FB trigger → GHL → day 0/3/7 sequence |
+| 3 | Instagram DM | DM trigger → auto-reply + booking link |
+| 4 | Calendly booking | Calendly webhook → GHL + Gmail + Slack + WhatsApp |
+| 5 | Weekly content | Schedule Mon 9am → blog + Kie.ai video → YouTube + Reels + Pinterest |
+| 6 | Post-tour review | 2 days after tour → Gmail review request |
+| 7 | GHL follow-up | Day 3 no response → SMS + email |
+
+## Deploy
+```bash
+git add <files> && git commit -m "msg" && git push
+```
+Live on Vercel — disable Deployment Protection or site is login-gated.
+
+## Design Rules
+- Never default Tailwind palette, `transition-all`, or flat `shadow-md`
+- Only animate `transform` and `opacity`
+- Pair Cormorant Garamond italic (display) with Inter Light (body) — never same font for both
+- Layer radial gradients + SVG grain for depth
+- Every clickable element: hover + focus-visible + active states
+- Don't add features beyond what's requested
