@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lisbon Off-Script — LEVANTE</title>
+  <meta name="description" content="The city the locals keep for themselves. A private Lisbon journey by LEVANTE.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper:      #F7F3EA;
+      --paper-2:    #EFE9DB;
+      --ink:        #1B1A17;
+      --ink-soft:   #6B6357;
+      --ink-mute:   #9A9285;
+      --line:       rgba(27, 26, 23, 0.10);
+      --line-2:     rgba(27, 26, 23, 0.18);
+      --gold:       #B08A4A;
+      --gold-soft:  #C9A96E;
+      --black:      #0D0D0D;
+      --cream:      #F5EFE0;
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+
+      --container: 1240px;
+      --pad-x:     clamp(24px, 5vw, 80px);
+
+      --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23g)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: var(--grain);
+      background-size: 200px 200px;
+      opacity: 0.055;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+      position: relative; z-index: 1;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 200;
+      height: 60px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 var(--pad-x);
+      background: rgba(247, 243, 234, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .header-wordmark {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .header-nav a {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      transition: color 240ms ease;
+    }
+    .header-nav a.cur {
+      color: var(--ink);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 2px;
+    }
+    .header-nav a:hover { color: var(--ink); }
+
+    .header-right { display: flex; justify-content: flex-end; }
+
+    .header-cta {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--ink);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 2px;
+      transition: color 240ms ease;
+    }
+    .header-cta:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    .t-hero {
+      position: relative;
+      height: clamp(480px, 60vh, 720px);
+      background:
+        linear-gradient(to top, rgba(13,13,13,0.65) 0%, rgba(13,13,13,0.18) 38%, rgba(13,13,13,0) 65%),
+        url('../brand_assets/couple-alley.png') center 35% / cover no-repeat;
+      display: flex;
+      align-items: flex-end;
+      padding: clamp(40px, 5vw, 64px) var(--pad-x);
+      margin-top: 60px;
+      color: var(--cream);
+    }
+
+    .t-hero-meta {
+      position: absolute;
+      top: clamp(20px, 3vw, 36px);
+      left: var(--pad-x);
+      right: var(--pad-x);
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 11px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(247,243,234,0.75);
+    }
+
+    .t-hero h1 {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(44px, 7vw, 100px);
+      line-height: 0.98;
+      letter-spacing: -0.015em;
+      color: var(--cream);
+      max-width: 14ch;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+
+    .t-hero h1 em {
+      font-style: italic;
+      color: var(--gold-soft);
+    }
+
+    /* ── OPENER ── */
+    .t-opener {
+      padding: clamp(56px, 7vw, 96px) 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .t-opener-inner {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: clamp(48px, 7vw, 96px);
+    }
+
+    .t-opener-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding-top: 8px;
+    }
+
+    .t-opener p {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(22px, 3vw, 38px);
+      line-height: 1.35;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+    }
+
+    /* ── MOMENTS ── */
+    .t-moments {
+      padding: clamp(56px, 7vw, 96px) 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .moments-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: clamp(40px, 5vw, 64px);
+    }
+
+    .moments-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .moments-hed {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(28px, 3.5vw, 48px);
+      line-height: 1.05;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    .moments-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(24px, 3vw, 40px) clamp(32px, 4vw, 56px);
+    }
+
+    .moment {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 20px;
+      align-items: start;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    .moment-img {
+      aspect-ratio: 1 / 1;
+      background-size: cover;
+      background-position: center;
+    }
+    .moment-img.m1 { background-image: url('../brand_assets/couple-alley.png'); }
+    .moment-img.m2 { background-image: url('../brand_assets/praca-comercio.png'); background-position: center 35%; }
+    .moment-img.m3 { background-image: url('../brand_assets/avenida-fashion.png'); background-position: center 15%; }
+    .moment-img.m4 { background-image: url('../brand_assets/tuktuk-lisbon.png'); }
+
+    .moment-when {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .moment-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(16px, 1.6vw, 22px);
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .moment-body {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--ink-soft);
+    }
+
+    /* ── QUOTE ── */
+    .t-quote {
+      position: relative;
+      padding: clamp(80px, 10vw, 140px) var(--pad-x);
+      background:
+        linear-gradient(to right, rgba(27,26,23,0.58) 0%, rgba(27,26,23,0.28) 100%),
+        url('../brand_assets/man-sunglasses.png') center 25% / cover no-repeat;
+      color: var(--cream);
+      display: flex;
+      align-items: center;
+    }
+
+    .t-quote blockquote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(22px, 3vw, 40px);
+      line-height: 1.3;
+      color: var(--cream);
+      max-width: 30ch;
+      letter-spacing: -0.005em;
+      position: relative; z-index: 1;
+    }
+
+    .t-quote-att {
+      margin-top: 24px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(247,243,234,0.68);
+    }
+
+    /* ── PRACTICAL ── */
+    .t-practical {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .t-practical-inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: clamp(40px, 5vw, 64px) 0;
+    }
+
+    .practical-item {
+      padding: 0 clamp(24px, 3vw, 40px);
+      border-left: 1px solid var(--line);
+    }
+    .practical-item:first-child { border-left: none; padding-left: 0; }
+
+    .practical-key {
+      font-family: var(--font-display);
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .practical-val {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(14px, 1.3vw, 17px);
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    /* ── CLOSE ── */
+    .t-close {
+      padding: clamp(80px, 10vw, 140px) 0;
+      text-align: center;
+    }
+
+    .t-close-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .t-close h2 {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(26px, 3.5vw, 48px);
+      line-height: 1.1;
+      color: var(--ink);
+      max-width: 22ch;
+      margin: 0 auto 32px;
+      letter-spacing: -0.01em;
+    }
+
+    .t-close-inv {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(15px, 1.4vw, 18px);
+      color: var(--ink);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 6px;
+      transition: color 240ms ease;
+    }
+    .t-close-inv::after { content: '→'; font-style: normal; color: var(--gold); }
+    .t-close-inv:hover  { color: var(--gold); }
+    .t-close-inv:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--line-2);
+      padding: 36px 0;
+      background: var(--paper-2);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-wordmark {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .footer-center {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 12px;
+      color: var(--ink-mute);
+    }
+
+    .footer-right { display: flex; gap: 28px; }
+
+    .footer-link {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 12px;
+      color: var(--ink-soft);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 1px;
+      transition: color 240ms ease, border-color 240ms ease;
+    }
+    .footer-link:hover { color: var(--gold); border-color: var(--gold); }
+
+    .footer-copy {
+      display: block;
+      text-align: center;
+      font-size: 11px;
+      color: var(--ink-mute);
+      letter-spacing: 0.08em;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .t-opener-inner { grid-template-columns: 1fr 1.6fr; }
+      .t-practical-inner { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+      .practical-item:nth-child(3) { border-left: none; padding-left: 0; padding-top: 24px; border-top: 1px solid var(--line); }
+      .practical-item:nth-child(4) { padding-top: 24px; border-top: 1px solid var(--line); }
+    }
+
+    @media (max-width: 768px) {
+      .t-opener-inner { grid-template-columns: 1fr; gap: 20px; }
+      .moments-grid { grid-template-columns: 1fr; }
+      .moments-head { flex-direction: column; gap: 12px; }
+      .t-practical-inner { grid-template-columns: 1fr 1fr; }
+      .footer-inner { flex-direction: column; gap: 20px; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .moment { grid-template-columns: 80px 1fr; }
+      .t-practical-inner { grid-template-columns: 1fr; }
+      .practical-item { border-left: none; padding-left: 0; padding-top: 20px; border-top: 1px solid var(--line); }
+      .practical-item:first-child { padding-top: 0; border-top: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="header-wordmark" href="/">Levante</a>
+  <nav class="header-nav">
+    <a href="../tours.html">Journeys</a>
+    <a href="../contact.html">Atelier</a>
+    <a href="../contact.html" class="cur">Begin</a>
+  </nav>
+  <div class="header-right">
+    <a class="header-cta" href="../contact.html">Begin a conversation</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="t-hero">
+  <div class="t-hero-meta">
+    <span>N°01 / Six ways into Portugal</span>
+    <span>Lisbon · Mouraria · Alfama</span>
+  </div>
+  <h1>The city locals<br><em>keep for themselves.</em></h1>
+</div>
+
+<!-- OPENER -->
+<section class="t-opener">
+  <div class="container">
+    <div class="t-opener-inner">
+      <div class="t-opener-label">An opening</div>
+      <p>Lisbon is two cities. The one written about, and the one that begins around midnight, two streets back from any hotel. We can show you the second.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MOMENTS -->
+<section class="t-moments">
+  <div class="container">
+    <div class="moments-head">
+      <span class="moments-label">Four moments — not a schedule</span>
+      <h2 class="moments-hed">What you will remember.</h2>
+    </div>
+
+    <div class="moments-grid">
+      <div class="moment">
+        <div class="moment-img m1"></div>
+        <div class="moment-body-wrap">
+          <div class="moment-when">A Tuesday, late</div>
+          <div class="moment-title">Fado, in a room of nine.</div>
+          <p class="moment-body">Mouraria. No sign on the door. A singer who has performed for three presidents and would prefer not to discuss it.</p>
+        </div>
+      </div>
+
+      <div class="moment">
+        <div class="moment-img m2"></div>
+        <div class="moment-body-wrap">
+          <div class="moment-when">Before sunrise</div>
+          <div class="moment-title">Praça do Comércio, empty.</div>
+          <p class="moment-body">The square as Lisboetas know it — before the trams, before the cruise lines, before anyone has decided what kind of day it will be.</p>
+        </div>
+      </div>
+
+      <div class="moment">
+        <div class="moment-img m3"></div>
+        <div class="moment-body-wrap">
+          <div class="moment-when">Friday, six in the evening</div>
+          <div class="moment-title">A studio above Chiado.</div>
+          <p class="moment-body">A designer most of Paris has heard of, and most of Lisbon hasn't yet. A glass of vinho verde. You leave with a coat.</p>
+        </div>
+      </div>
+
+      <div class="moment">
+        <div class="moment-img m4"></div>
+        <div class="moment-body-wrap">
+          <div class="moment-when">After midnight</div>
+          <div class="moment-title">The neighbourhood changes face.</div>
+          <p class="moment-body">A rooftop no app lists. A second one, smaller, that the first one's owner sometimes mentions. A way home through streets that feel borrowed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="t-quote">
+  <blockquote>
+    The kind of evening you couldn't have arranged yourself, and won't be able to describe afterwards.
+    <div class="t-quote-att">— A guest, Spring 2025</div>
+  </blockquote>
+</div>
+
+<!-- PRACTICAL -->
+<section class="t-practical">
+  <div class="container">
+    <div class="t-practical-inner">
+      <div class="practical-item">
+        <div class="practical-key">Group</div>
+        <div class="practical-val">Private. One party.</div>
+      </div>
+      <div class="practical-item">
+        <div class="practical-key">Length</div>
+        <div class="practical-val">Three or four nights.</div>
+      </div>
+      <div class="practical-item">
+        <div class="practical-key">Season</div>
+        <div class="practical-val">All year. Different city in winter.</div>
+      </div>
+      <div class="practical-item">
+        <div class="practical-key">From</div>
+        <div class="practical-val">By conversation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSE -->
+<section class="t-close">
+  <div class="container">
+    <p class="t-close-label">Begin</p>
+    <h2>If this sounds like the trip you almost took, write to us.</h2>
+    <a class="t-close-inv" href="../contact.html">Begin a conversation</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a class="footer-wordmark" href="/">Levante</a>
+      <span class="footer-center">Lisbon, Portugal.</span>
+      <div class="footer-right">
+        <a class="footer-link" href="#">Instagram</a>
+        <a class="footer-link" href="mailto:hello@levante.pt">hello@levante.pt</a>
+      </div>
+    </div>
+    <span class="footer-copy">© 2024 LEVANTE. By introduction.</span>
+  </div>
+</footer>
+
+</body>
+</html>

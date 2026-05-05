@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LEVANTE — Off-Script Portugal</title>
+  <meta name="description" content="A travel atelier in Lisbon. Private journeys, designed from scratch, for one party at a time.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── TOKENS ──────────────────────────────────────────────── */
+    :root {
+      --paper:      #F7F3EA;
+      --paper-2:    #EFE9DB;
+      --ink:        #1B1A17;
+      --ink-2:      #2E2A23;
+      --ink-soft:   #6B6357;
+      --ink-mute:   #9A9285;
+      --line:       rgba(27, 26, 23, 0.10);
+      --line-2:     rgba(27, 26, 23, 0.18);
+      --gold:       #B08A4A;
+      --gold-soft:  #C9A96E;
+      --terra:      #B36A4A;
+      --atlantic:   #2C4A6E;
+
+      /* dark surface — image sections only */
+      --black:      #0D0D0D;
+      --cream:      #F5EFE0;
+      --cream-muted: rgba(245,239,224,0.65);
+      --gold-line:  rgba(201,169,110,0.25);
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+
+      --container: 1240px;
+      --pad-x:     clamp(24px, 5vw, 80px);
+      --section-y: clamp(120px, 14vw, 200px);
+
+      --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23g)' opacity='0.55'/%3E%3C/svg%3E");
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: var(--grain);
+      background-size: 200px 200px;
+      opacity: 0.055;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+      position: relative; z-index: 1;
+    }
+
+    /* ── HEADER ──────────────────────────────────────────────── */
+    header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 200;
+      height: 60px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 var(--pad-x);
+      background: rgba(247, 243, 234, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .header-wordmark {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .header-nav a {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      transition: color 240ms ease;
+    }
+    .header-nav a:hover { color: var(--ink); }
+    .header-nav a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+    .header-right { display: flex; justify-content: flex-end; }
+
+    .header-cta {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--ink);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 2px;
+      transition: border-color 240ms ease, color 240ms ease;
+    }
+    .header-cta:hover { color: var(--gold); border-color: var(--gold-soft); }
+    .header-cta:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+    /* ── HERO ────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 60px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-text-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(64px, 9vw, 120px) var(--pad-x) clamp(48px, 6vw, 80px);
+      background: var(--paper);
+      position: relative; z-index: 2;
+    }
+
+    .hero-top { display: flex; flex-direction: column; gap: 20px; }
+    .hero-bottom { display: flex; flex-direction: column; gap: 20px; }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(52px, 7.5vw, 100px);
+      line-height: 0.97;
+      letter-spacing: -0.018em;
+      color: var(--ink);
+    }
+
+    .hero-headline .roman {
+      font-style: normal;
+      font-family: var(--font-heading);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-lede {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: clamp(14px, 1.3vw, 17px);
+      line-height: 1.6;
+      color: var(--ink-soft);
+      max-width: 34ch;
+    }
+
+    .hero-invitation {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(14px, 1.2vw, 16px);
+      color: var(--ink);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 5px;
+      align-self: flex-start;
+      transition: color 240ms ease, border-color 240ms ease;
+    }
+    .hero-invitation::after { content: '→'; font-style: normal; color: var(--gold); }
+    .hero-invitation:hover  { color: var(--gold); }
+    .hero-invitation:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; }
+
+    .hero-image-panel {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-image-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        url('brand_assets/man-cliff.png') center 15% / cover no-repeat;
+    }
+    .hero-image-panel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 0 1px rgba(27,26,23,0.07);
+    }
+
+    .hero-img-caption {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 9px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(247,243,234,0.75);
+      text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+      z-index: 2;
+    }
+
+    .hero-ticker {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 50%;
+      display: flex;
+      justify-content: space-between;
+      padding: 14px var(--pad-x);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 9px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+      border-top: 1px solid var(--line);
+      z-index: 3;
+    }
+    .hero-ticker span:nth-child(2) { color: var(--gold); }
+
+    /* ── FOUNDER ─────────────────────────────────────────────── */
+    #founder {
+      padding: var(--section-y) 0;
+    }
+
+    .founder-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(48px, 7vw, 96px);
+      align-items: center;
+    }
+
+    .founder-image {
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      position: relative;
+      background: url('brand_assets/couple-alley.png') center 30% / cover no-repeat;
+    }
+    .founder-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 0 1px var(--line-2);
+    }
+
+    .founder-kicker {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+    }
+
+    .founder-hed {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(32px, 3.8vw, 52px);
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    .founder-body {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: clamp(15px, 1.4vw, 18px);
+      line-height: 1.65;
+      color: var(--ink-soft);
+      margin-bottom: 32px;
+    }
+
+    .founder-pull {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(17px, 1.6vw, 22px);
+      line-height: 1.4;
+      color: var(--ink);
+      border-left: 1px solid var(--gold);
+      padding-left: 20px;
+      max-width: 42ch;
+    }
+
+    /* ── JOURNEYS PREVIEW ────────────────────────────────────── */
+    #journeys-preview {
+      padding: 0 0 var(--section-y);
+      border-top: 1px solid var(--line-2);
+    }
+
+    .journeys-head {
+      padding: clamp(64px, 8vw, 120px) 0 clamp(48px, 6vw, 72px);
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 40px;
+      align-items: end;
+    }
+
+    .journeys-hed {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(38px, 5.5vw, 72px);
+      line-height: 1.0;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+    }
+    .journeys-hed .roman {
+      font-style: normal;
+      font-family: var(--font-heading);
+      font-weight: 400;
+      letter-spacing: -0.005em;
+    }
+
+    .journeys-sub {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(14px, 1.3vw, 18px);
+      line-height: 1.5;
+      color: var(--ink-soft);
+    }
+    .journeys-sub::before { content: '— '; color: var(--gold); }
+
+    .journeys-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .journey-card {
+      position: relative;
+      background: var(--black);
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding: 24px;
+      min-height: 380px;
+      color: var(--cream);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .journey-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(13,13,13,0.88) 0%, rgba(13,13,13,0.3) 50%, rgba(13,13,13,0.0) 100%);
+      z-index: 1;
+      transition: opacity 360ms ease;
+    }
+    .journey-card:hover::before { opacity: 0.8; }
+
+    .journey-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 500ms cubic-bezier(0.22,1,0.36,1);
+    }
+    .journey-card:hover::after { transform: scale(1.03); }
+
+    .jc-lisbon::after  { background-image: url('brand_assets/couple-alley.png'); background-position: center 30%; }
+    .jc-douro::after   { background-image: url('brand_assets/douro-wine.png'); }
+    .jc-alentejo::after { background-image: url('brand_assets/alentejo-road.png'); }
+    .jc-atlantic::after { background-image: url('brand_assets/atlantic-beach.png'); }
+    .jc-art::after     { background-image: url('brand_assets/monserrate-arches.jpg'); }
+    .jc-fashion::after { background-image: url('brand_assets/avenida-fashion.png'); background-position: center 20%; }
+
+    .journey-card-body {
+      position: relative; z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .jc-num {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: rgba(245,239,224,0.6);
+      z-index: 2;
+    }
+
+    .jc-kicker {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245,239,224,0.6);
+      margin-bottom: 8px;
+    }
+
+    .jc-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(18px, 1.8vw, 26px);
+      line-height: 1.05;
+      color: var(--cream);
+      margin-bottom: 10px;
+    }
+
+    .jc-oneline {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: 11px;
+      line-height: 1.5;
+      color: rgba(245,239,224,0.72);
+      margin-bottom: 16px;
+      max-width: 26ch;
+    }
+
+    .jc-invite {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 11px;
+      color: var(--gold-soft);
+      border-bottom: 1px solid rgba(201,169,110,0.5);
+      padding-bottom: 2px;
+      align-self: flex-start;
+      transition: border-color 240ms ease;
+    }
+    .journey-card:hover .jc-invite { border-color: var(--gold-soft); }
+
+    .journeys-all {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .journeys-all a {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 15px;
+      color: var(--ink);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 5px;
+      transition: color 240ms ease;
+    }
+    .journeys-all a::after { content: '→'; font-style: normal; color: var(--gold); }
+    .journeys-all a:hover { color: var(--gold); }
+
+    /* ── PROCESS RIBBON ──────────────────────────────────────── */
+    #process {
+      border-top: 1px solid var(--line-2);
+      border-bottom: 1px solid var(--line-2);
+      background: var(--paper-2);
+    }
+
+    .process-inner {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .process-step {
+      padding: clamp(40px, 5vw, 64px) clamp(24px, 3vw, 48px);
+      border-right: 1px solid var(--line);
+    }
+    .process-step:last-child { border-right: none; }
+
+    .ps-num {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .ps-name {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(20px, 2vw, 28px);
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 10px;
+      letter-spacing: -0.005em;
+    }
+
+    .ps-desc {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--ink-soft);
+    }
+
+    /* ── BEGIN / CTA ─────────────────────────────────────────── */
+    #begin {
+      padding: var(--section-y) 0;
+    }
+
+    .begin-image {
+      width: 100%;
+      height: clamp(320px, 40vw, 560px);
+      background:
+        linear-gradient(to bottom, transparent 30%, rgba(27,26,23,0.08) 100%),
+        url('brand_assets/couple-cliff.png') center 30% / cover no-repeat;
+      margin-bottom: clamp(56px, 7vw, 96px);
+    }
+
+    .begin-inner {
+      text-align: center;
+      max-width: 52ch;
+      margin: 0 auto;
+    }
+
+    .begin-kicker {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .begin-hed {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(28px, 4vw, 52px);
+      line-height: 1.12;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      margin-bottom: 32px;
+    }
+
+    .begin-invitation {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(15px, 1.4vw, 18px);
+      color: var(--ink);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 6px;
+      transition: color 240ms ease;
+    }
+    .begin-invitation::after { content: '→'; font-style: normal; color: var(--gold); }
+    .begin-invitation:hover  { color: var(--gold); }
+    .begin-invitation:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; }
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--line-2);
+      padding: 36px 0;
+      background: var(--paper-2);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-wordmark {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .footer-center {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 12px;
+      color: var(--ink-mute);
+      letter-spacing: 0.06em;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .footer-link {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 12px;
+      color: var(--ink-soft);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 1px;
+      transition: color 240ms ease, border-color 240ms ease;
+    }
+    .footer-link:hover { color: var(--gold); border-color: var(--gold); }
+
+    .footer-copy {
+      display: block;
+      text-align: center;
+      font-size: 11px;
+      color: var(--ink-mute);
+      letter-spacing: 0.08em;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .journeys-grid { grid-template-columns: repeat(2, 1fr); }
+      .journey-card:last-child { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      #hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-image-panel { height: 50vw; min-height: 260px; }
+      .hero-ticker { display: none; }
+
+      .founder-inner { grid-template-columns: 1fr; }
+      .founder-image { aspect-ratio: 3 / 2; }
+
+      .journeys-head { grid-template-columns: 1fr; gap: 20px; }
+      .journeys-grid { grid-template-columns: 1fr; }
+      .journey-card { display: flex; }
+      .journey-card:last-child { display: flex; }
+
+      .process-inner { grid-template-columns: 1fr; }
+      .process-step { border-right: none; border-bottom: 1px solid var(--line); }
+      .process-step:last-child { border-bottom: none; }
+
+      .footer-inner { flex-direction: column; gap: 20px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ──────────────────────────────────────────────── -->
+<header>
+  <a class="header-wordmark" href="/">Levante</a>
+  <nav class="header-nav">
+    <a href="tours.html">Journeys</a>
+    <a href="contact.html">Atelier</a>
+    <a href="contact.html">Begin</a>
+  </nav>
+  <div class="header-right">
+    <a class="header-cta" href="contact.html">Begin a conversation</a>
+  </div>
+</header>
+
+<!-- ── HERO ──────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-text-panel">
+    <div class="hero-top">
+      <span class="hero-eyebrow">Off-Script Portugal — N°01</span>
+      <h1 class="hero-headline">Portugal,<br><span class="roman">privately.</span></h1>
+    </div>
+    <div class="hero-bottom">
+      <p class="hero-lede">A travel atelier in Lisbon. We design one journey at a time, by invitation, for guests who already know how to travel.</p>
+      <a class="hero-invitation" href="contact.html">Begin a conversation</a>
+    </div>
+  </div>
+
+  <div class="hero-image-panel" aria-hidden="true">
+    <div class="hero-img-caption">
+      <span>Cape Espichel</span>
+      <span>Atlantic / N°004</span>
+    </div>
+  </div>
+
+  <div class="hero-ticker">
+    <span>Lisbon · 38°43′N</span>
+    <span>By appointment</span>
+    <span>Est. 2024</span>
+  </div>
+</section>
+
+<!-- ── FOUNDER ────────────────────────────────────────────────── -->
+<section id="founder">
+  <div class="container">
+    <div class="founder-inner">
+      <div class="founder-image" aria-hidden="true"></div>
+      <div class="founder-text">
+        <p class="founder-kicker">Hanna — Founder</p>
+        <h2 class="founder-hed">Born between<br>three countries.</h2>
+        <p class="founder-body">Growing up between three countries gave me an early understanding that every place has two versions — the one most people see, and the one you have to be invited into. Portugal, I found, has the widest gap of any of them.</p>
+        <p class="founder-body">Every LEVANTE journey begins with a conversation and ends with something no platform can replicate — not because of what we add, but because of what we know to remove.</p>
+        <blockquote class="founder-pull">I grew up knowing there's the visible version of a place — and the one you have to be invited into. LEVANTE is about the second.</blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── JOURNEYS PREVIEW ───────────────────────────────────────── -->
+<section id="journeys-preview">
+  <div class="container">
+    <div class="journeys-head">
+      <h2 class="journeys-hed">Six ways<br><span class="roman">into Portugal.</span></h2>
+      <p class="journeys-sub">Each begins as a starting point. Yours takes three weeks to build, and arrives as something only you would have chosen.</p>
+    </div>
+
+    <div class="journeys-grid">
+      <a class="journey-card jc-lisbon" href="tours/lisbon-off-script.html">
+        <span class="jc-num">N°01</span>
+        <div class="journey-card-body">
+          <span class="jc-kicker">Lisbon</span>
+          <span class="jc-title">Lisbon, off-script.</span>
+          <p class="jc-oneline">The city the locals keep for themselves.</p>
+          <span class="jc-invite">Read the journey</span>
+        </div>
+      </a>
+
+      <a class="journey-card jc-douro" href="tours.html">
+        <span class="jc-num">N°02</span>
+        <div class="journey-card-body">
+          <span class="jc-kicker">Porto · Douro</span>
+          <span class="jc-title">A river worth arguing about.</span>
+          <p class="jc-oneline">Granite, fog, and a thousand-year quiet about wine.</p>
+          <span class="jc-invite">Read the journey</span>
+        </div>
+      </a>
+
+      <a class="journey-card jc-alentejo" href="tours.html">
+        <span class="jc-num">N°03</span>
+        <div class="journey-card-body">
+          <span class="jc-kicker">Alentejo</span>
+          <span class="jc-title">Cork, red earth, long evenings.</span>
+          <p class="jc-oneline">Wines that finish for days. Villages no one wrote about.</p>
+          <span class="jc-invite">Read the journey</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="journeys-all">
+      <a href="tours.html">See all six journeys</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROCESS RIBBON ─────────────────────────────────────────── -->
+<section id="process">
+  <div class="container">
+    <div class="process-inner">
+      <div class="process-step">
+        <div class="ps-num">01</div>
+        <div class="ps-name">Tell us everything.</div>
+        <p class="ps-desc">Your interests, obsessions, the things you cannot stand, and the one thing you've always meant to do. The more specific, the better.</p>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">02</div>
+        <div class="ps-name">We disappear.</div>
+        <p class="ps-desc">Three weeks designing your Portugal from scratch. Every contact, every room, every sequence — built for one party, not a product.</p>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">03</div>
+        <div class="ps-name">You arrive.</div>
+        <p class="ps-desc">To an itinerary that feels like it was written for you alone. Because it was.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BEGIN / CTA ────────────────────────────────────────────── -->
+<section id="begin">
+  <div class="container">
+    <div class="begin-image" aria-hidden="true"></div>
+    <div class="begin-inner">
+      <p class="begin-kicker">Begin</p>
+      <h2 class="begin-hed">If this sounds like the trip you almost took, write to us.</h2>
+      <a class="begin-invitation" href="contact.html">Begin a conversation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span class="footer-wordmark">Levante</span>
+      <span class="footer-center">Lisbon, Portugal.</span>
+      <div class="footer-right">
+        <a class="footer-link" href="#">Instagram</a>
+        <a class="footer-link" href="mailto:hello@levante.pt">hello@levante.pt</a>
+      </div>
+    </div>
+    <span class="footer-copy">© 2024 LEVANTE. By introduction.</span>
+  </div>
+</footer>
+
+</body>
+</html>
