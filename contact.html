@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Begin Your Journey — LEVANTE</title>
+  <meta name="description" content="Start a conversation with LEVANTE. Private tours, corporate meetings, and team building in Portugal — designed from scratch.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       TOKENS
+    ========================================================= */
+    :root {
+      --black:            #0D0D0D;
+      --cream:            #F5EFE0;
+      --gold:             #C9A96E;
+      --gold-hover:       #d9be8a;
+      --terracotta:       #C47A5A;
+      --atlantic:         #2C4A6E;
+      --cream-muted:      rgba(245, 239, 224, 0.58);
+      --gold-line:        rgba(201, 169, 110, 0.25);
+      --gold-line-strong: rgba(201, 169, 110, 0.5);
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+
+      --container: 1320px;
+      --pad-x:     clamp(24px, 5.5vw, 88px);
+    }
+
+    /* =========================================================
+       RESET
+    ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* =========================================================
+       GRAIN OVERLAY
+    ========================================================= */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.07;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23g)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+
+    /* =========================================================
+       LAYOUT HELPERS
+    ========================================================= */
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+    }
+
+    .section-label {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    /* =========================================================
+       SCROLL REVEAL
+    ========================================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible  { opacity: 1; transform: none; }
+    .reveal-d1       { transition-delay: 80ms; }
+    .reveal-d2       { transition-delay: 160ms; }
+    .reveal-d3       { transition-delay: 240ms; }
+    .reveal-d4       { transition-delay: 320ms; }
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+    header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 200;
+      height: 64px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 var(--pad-x);
+      background: rgba(13, 13, 13, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--gold-line);
+    }
+
+    .header-wordmark {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .header-nav a {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+      transition: color 260ms ease;
+    }
+    .header-nav a:hover         { color: var(--cream); }
+    .header-nav a.active        { color: var(--gold); }
+    .header-nav a:focus-visible  { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+    .header-right {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .header-cta {
+      display: inline-flex;
+      align-items: center;
+      height: 34px;
+      padding: 0 20px;
+      border: 1px solid var(--gold-line-strong);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: transparent;
+      cursor: pointer;
+      transition: background 280ms ease, color 280ms ease, border-color 280ms ease;
+    }
+    .header-cta:hover         { background: var(--gold); color: var(--black); border-color: var(--gold); }
+    .header-cta:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+    .header-cta:active        { transform: scale(0.97); }
+
+    /* =========================================================
+       PAGE INTRO
+    ========================================================= */
+    .page-intro {
+      padding-top: 64px;
+      min-height: 38vh;
+      display: flex;
+      align-items: flex-end;
+      border-bottom: 1px solid var(--gold-line);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-intro::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        url('brand_assets/couple-wine.png') center 40% / cover no-repeat;
+      opacity: 0.14;
+    }
+
+    .page-intro-inner {
+      position: relative;
+      z-index: 1;
+      padding: clamp(48px, 7vw, 100px) var(--pad-x) clamp(48px, 6vw, 80px);
+      max-width: var(--container);
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .page-intro .section-label { margin-bottom: 28px; }
+
+    .page-hed {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 7vw, 96px);
+      font-weight: 600;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1.02;
+      letter-spacing: -0.01em;
+      max-width: 820px;
+    }
+
+    .page-sub {
+      margin-top: 24px;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--cream-muted);
+      max-width: 520px;
+      line-height: 1.75;
+    }
+
+    /* =========================================================
+       CONTACT LAYOUT
+    ========================================================= */
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      min-height: calc(100vh - 38vh - 64px);
+    }
+
+    /* LEFT PANEL */
+    .contact-sidebar {
+      border-right: 1px solid var(--gold-line);
+      padding: clamp(48px, 6vw, 80px) clamp(32px, 4vw, 64px);
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+    }
+
+    .sidebar-block-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .sidebar-block-body {
+      font-size: 13px;
+      line-height: 1.85;
+      color: var(--cream-muted);
+    }
+
+    .sidebar-block-body strong {
+      color: var(--cream);
+      font-weight: 400;
+    }
+
+    .sidebar-process {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .sp-step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .sp-num {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      opacity: 0.7;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    .sp-text {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--cream-muted);
+    }
+
+    .sp-text strong {
+      display: block;
+      color: var(--cream);
+      font-weight: 400;
+      margin-bottom: 4px;
+    }
+
+    .sidebar-contact a {
+      display: block;
+      font-size: 13px;
+      color: var(--cream-muted);
+      transition: color 260ms ease;
+    }
+    .sidebar-contact a:hover { color: var(--gold); }
+
+    /* RIGHT PANEL — FORM */
+    .contact-form-panel {
+      padding: clamp(48px, 6vw, 80px) clamp(40px, 6vw, 96px);
+    }
+
+    /* =========================================================
+       ENQUIRY TYPE SELECTOR
+    ========================================================= */
+    .type-selector {
+      display: flex;
+      gap: 1px;
+      background: var(--gold-line);
+      border: 1px solid var(--gold-line);
+      margin-bottom: 52px;
+    }
+
+    .type-option {
+      flex: 1;
+      position: relative;
+    }
+
+    .type-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .type-option label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 20px 24px;
+      background: var(--black);
+      cursor: pointer;
+      transition: background 280ms ease;
+    }
+
+    .type-option label:hover { background: rgba(201,169,110,0.05); }
+
+    .type-option input:checked + label {
+      background: rgba(201,169,110,0.1);
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .type-option input:focus-visible + label {
+      outline: 2px solid var(--gold);
+      outline-offset: -2px;
+    }
+
+    .type-name {
+      font-family: var(--font-heading);
+      font-size: clamp(13px, 1.1vw, 15px);
+      font-weight: 600;
+      color: var(--cream);
+    }
+
+    .type-desc {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--cream-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* =========================================================
+       FORM FIELDS
+    ========================================================= */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 40px;
+    }
+
+    .form-field {
+      position: relative;
+      margin-bottom: 44px;
+    }
+
+    .form-field.full { grid-column: 1 / -1; }
+
+    .form-field label {
+      display: block;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+      margin-bottom: 12px;
+      transition: color 280ms ease;
+    }
+
+    .form-field:focus-within label { color: var(--gold); }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--gold-line-strong);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 300;
+      padding: 10px 0 14px;
+      outline: none;
+      transition: border-color 280ms ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .form-field input::placeholder,
+    .form-field textarea::placeholder {
+      color: rgba(245,239,224,0.2);
+      font-style: italic;
+      font-family: var(--font-display);
+      font-size: 15px;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-bottom-color: var(--gold);
+    }
+
+    .form-field textarea {
+      resize: none;
+      height: 100px;
+      line-height: 1.7;
+    }
+
+    .form-field select {
+      cursor: pointer;
+      color: var(--cream-muted);
+    }
+
+    .form-field select option {
+      background: #1a1a1a;
+      color: var(--cream);
+    }
+
+    /* field underline animation */
+    .form-field::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 380ms cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+    }
+    .form-field:focus-within::after { width: 100%; }
+
+    /* =========================================================
+       SUBMIT
+    ========================================================= */
+    .form-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding-top: 8px;
+    }
+
+    .form-note {
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(245,239,224,0.28);
+      letter-spacing: 0.06em;
+      max-width: 340px;
+      line-height: 1.6;
+    }
+
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      height: 52px;
+      padding: 0 44px;
+      background: transparent;
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      border: 1px solid rgba(201,169,110,0.55);
+      cursor: pointer;
+      transition: background 360ms ease, color 360ms ease, border-color 360ms ease, transform 200ms ease;
+      white-space: nowrap;
+    }
+    .btn-submit::after     { content: '→'; font-size: 14px; transition: transform 300ms ease; }
+    .btn-submit:hover      { background: rgba(201,169,110,0.12); border-color: var(--gold); }
+    .btn-submit:hover::after { transform: translateX(4px); }
+    .btn-submit:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+    .btn-submit:active     { transform: scale(0.97); }
+
+    /* loading state */
+    .btn-submit.loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .btn-submit.loading::after { content: '…'; animation: ellipsis 1s infinite; }
+    @keyframes ellipsis {
+      0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+    }
+
+    /* =========================================================
+       SUCCESS STATE
+    ========================================================= */
+    .success-state {
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      min-height: 420px;
+      gap: 24px;
+      animation: fadeIn 600ms ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .success-icon {
+      width: 48px;
+      height: 48px;
+      color: var(--gold);
+    }
+
+    .success-hed {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 600;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1.12;
+    }
+
+    .success-body {
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--cream-muted);
+      max-width: 420px;
+    }
+
+    .success-back {
+      margin-top: 12px;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      cursor: pointer;
+      transition: opacity 260ms ease;
+    }
+    .success-back:hover { opacity: 0.7; }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+    footer {
+      padding: 44px 0;
+      border-top: 1px solid var(--gold-line);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-wordmark {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+      transition: color 260ms ease;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-copy {
+      font-size: 10px;
+      font-weight: 300;
+      color: rgba(245,239,224,0.2);
+      letter-spacing: 0.08em;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+    @media (max-width: 1024px) {
+      .contact-wrap {
+        grid-template-columns: 1fr;
+      }
+      .contact-sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--gold-line);
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 40px;
+      }
+      .sidebar-block { flex: 1; min-width: 200px; }
+    }
+
+    @media (max-width: 768px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .type-selector { flex-direction: column; }
+      .header-nav { display: none; }
+      header { grid-template-columns: 1fr 1fr; }
+      .contact-sidebar { flex-direction: column; }
+      .form-footer { flex-direction: column; align-items: flex-start; }
+      .page-hed { font-size: clamp(36px, 10vw, 56px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════ -->
+  <header id="site-header">
+    <a href="index.html" class="header-wordmark">Levante</a>
+    <nav class="header-nav">
+      <a href="index.html#about">Our Story</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#tours">Experiences</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+    <div class="header-right">
+      <a href="contact.html" class="header-cta">Begin Your Journey</a>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════
+       PAGE INTRO
+  ═══════════════════════════════════════ -->
+  <div class="page-intro">
+    <div class="page-intro-inner">
+      <span class="section-label reveal">Start a conversation</span>
+      <h1 class="page-hed reveal reveal-d1">Tell us what<br>you're looking for.</h1>
+      <p class="page-sub reveal reveal-d2">We take on a small number of new clients each season. Every enquiry is read by Hanna personally.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CONTACT BODY
+  ═══════════════════════════════════════ -->
+  <div class="contact-wrap">
+
+    <!-- SIDEBAR -->
+    <aside class="contact-sidebar">
+
+      <div class="sidebar-block reveal">
+        <p class="sidebar-block-label">What happens next</p>
+        <div class="sidebar-process">
+          <div class="sp-step">
+            <span class="sp-num">01</span>
+            <p class="sp-text"><strong>Hanna reads your enquiry</strong>Usually within 24 hours. No auto-replies.</p>
+          </div>
+          <div class="sp-step">
+            <span class="sp-num">02</span>
+            <p class="sp-text"><strong>A short call</strong>30 minutes to understand what you're looking for. No pressure.</p>
+          </div>
+          <div class="sp-step">
+            <span class="sp-num">03</span>
+            <p class="sp-text"><strong>We disappear</strong>Three weeks designing your Portugal from scratch.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-block reveal reveal-d1">
+        <p class="sidebar-block-label">Prefer to reach us directly</p>
+        <div class="sidebar-contact">
+          <a href="mailto:hello@levante.pt">hello@levante.pt</a>
+          <a href="https://instagram.com/levante.pt" target="_blank" rel="noopener">@levante.pt</a>
+        </div>
+      </div>
+
+      <div class="sidebar-block reveal reveal-d2">
+        <p class="sidebar-block-label">Response time</p>
+        <p class="sidebar-block-body">We respond to all enquiries within <strong>24 hours</strong>, Monday to Friday. For urgent requests, email directly.</p>
+      </div>
+
+    </aside>
+
+    <!-- FORM PANEL -->
+    <section class="contact-form-panel">
+
+      <!-- THE FORM -->
+      <div id="form-wrap">
+
+        <!-- ENQUIRY TYPE -->
+        <div class="type-selector reveal" role="group" aria-labelledby="type-legend">
+          <p id="type-legend" style="display:none">Type of enquiry</p>
+
+          <div class="type-option">
+            <input type="radio" name="enquiry_type" id="type-tour" value="Private Journey" checked>
+            <label for="type-tour">
+              <span class="type-name">Private Journey</span>
+              <span class="type-desc">Custom multi-day tour</span>
+            </label>
+          </div>
+
+          <div class="type-option">
+            <input type="radio" name="enquiry_type" id="type-corp" value="Corporate Meeting">
+            <label for="type-corp">
+              <span class="type-name">Corporate Meeting</span>
+              <span class="type-desc">Offsite or client visit</span>
+            </label>
+          </div>
+
+          <div class="type-option">
+            <input type="radio" name="enquiry_type" id="type-team" value="Team Building">
+            <label for="type-team">
+              <span class="type-name">Team Building</span>
+              <span class="type-desc">Group experience</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- FORM FIELDS -->
+        <form id="enquiry-form" novalidate>
+          <input type="hidden" name="enquiry_type" id="hidden-type" value="Private Journey">
+
+          <div class="form-grid">
+
+            <div class="form-field reveal reveal-d1">
+              <label for="name">Your name</label>
+              <input type="text" id="name" name="name" autocomplete="name" required placeholder="As you'd like to be addressed">
+            </div>
+
+            <div class="form-field reveal reveal-d1">
+              <label for="email">Email address</label>
+              <input type="email" id="email" name="email" autocomplete="email" required placeholder="hello@example.com">
+            </div>
+
+            <div class="form-field reveal reveal-d2">
+              <label for="company">Company <span style="opacity:.4;font-style:italic;letter-spacing:0">optional</span></label>
+              <input type="text" id="company" name="company" autocomplete="organization" placeholder="For corporate enquiries">
+            </div>
+
+            <div class="form-field reveal reveal-d2">
+              <label for="dates">When are you thinking?</label>
+              <input type="text" id="dates" name="dates" placeholder="e.g. September 2025, flexible">
+            </div>
+
+            <div class="form-field full reveal reveal-d3">
+              <label for="message">Tell us what you're looking for</label>
+              <textarea id="message" name="message" required placeholder="The more specific, the better — interests, group size, what you're hoping to feel…"></textarea>
+            </div>
+
+            <div class="form-field reveal reveal-d3">
+              <label for="source">How did you find us? <span style="opacity:.4;font-style:italic;letter-spacing:0">optional</span></label>
+              <select id="source" name="source">
+                <option value="">Select one</option>
+                <option>Instagram</option>
+                <option>Google</option>
+                <option>Referral from a friend</option>
+                <option>Pinterest</option>
+                <option>Press / editorial</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="form-footer reveal reveal-d4">
+            <p class="form-note">No commitment. A 30-minute call to explore what's possible. We reply to every enquiry personally.</p>
+            <button type="submit" class="btn-submit" id="submit-btn">Begin your journey</button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div class="success-state" id="success-state">
+        <svg class="success-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="24" r="20"/>
+          <polyline points="16,24 22,30 32,18"/>
+        </svg>
+        <h2 class="success-hed">We've received<br>your enquiry.</h2>
+        <p class="success-body">Hanna will be in touch within 24 hours. In the meantime, feel free to explore the experiences we've built — yours will start from scratch.</p>
+        <a href="index.html#tours" class="success-back">Explore experiences →</a>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-wordmark">Levante</span>
+        <ul class="footer-links">
+          <li><a href="https://instagram.com/levante.pt" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="#">Pinterest</a></li>
+          <li><a href="mailto:hello@levante.pt">Email</a></li>
+        </ul>
+        <span class="footer-copy">&copy; 2026 LEVANTE. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Scroll reveals ──────────────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── Sync radio buttons → hidden field ──────────────────
+    document.querySelectorAll('input[name="enquiry_type"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        document.getElementById('hidden-type').value = radio.value;
+      });
+    });
+
+    // ── Form submission ────────────────────────────────────
+    const form      = document.getElementById('enquiry-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const formWrap  = document.getElementById('form-wrap');
+    const successEl = document.getElementById('success-state');
+
+    // Replace with your n8n webhook URL when ready
+    const WEBHOOK_URL = 'https://hannafitin.app.n8n.cloud/webhook/levante-contact';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // basic validation
+      const name    = form.querySelector('#name').value.trim();
+      const email   = form.querySelector('#email').value.trim();
+      const message = form.querySelector('#message').value.trim();
+      if (!name || !email || !message) {
+        [form.querySelector('#name'), form.querySelector('#email'), form.querySelector('#message')]
+          .forEach(f => { if (!f.value.trim()) f.style.borderBottomColor = '#C47A5A'; });
+        return;
+      }
+
+      submitBtn.classList.add('loading');
+      submitBtn.textContent = 'Sending';
+
+      const payload = {
+        enquiry_type: document.getElementById('hidden-type').value,
+        name,
+        email,
+        company:  form.querySelector('#company').value.trim(),
+        dates:    form.querySelector('#dates').value.trim(),
+        message,
+        source:   form.querySelector('#source').value,
+        submitted_at: new Date().toISOString(),
+        page: 'contact.html'
+      };
+
+      try {
+        await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (_) {
+        // proceed to success even if webhook is not yet configured
+      }
+
+      formWrap.style.display  = 'none';
+      successEl.style.display = 'flex';
+    });
+
+    // reset validation colour on input
+    form.querySelectorAll('input, textarea').forEach(f => {
+      f.addEventListener('input', () => { f.style.borderBottomColor = ''; });
+    });
+  </script>
+
+</body>
+</html>
