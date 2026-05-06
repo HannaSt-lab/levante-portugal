@@ -278,27 +278,42 @@
 
     /* ── ABOUT ── */
     #about {
-      padding: var(--section-y) 0;
-      border-bottom: 1px solid var(--gold-line);
-      overflow: hidden;
-    }
-
-    .about-inner {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: clamp(48px, 7vw, 112px);
-      align-items: center;
+      min-height: clamp(560px, 72vh, 840px);
+      border-bottom: 1px solid var(--gold-line);
+      overflow: hidden;
+      position: relative;
     }
 
-    .about-text .section-label { margin-bottom: 44px; }
+    /* subtle terracotta warmth bleeding from the photo side */
+    #about::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 72% 50%, rgba(196,122,90,0.10) 0%, transparent 55%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .about-text {
+      position: relative; z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(72px, 9vw, 128px) clamp(40px, 5vw, 72px) clamp(72px, 9vw, 128px) var(--pad-x);
+    }
+
+    .about-text .section-label { margin-bottom: 36px; }
 
     .about-hed {
-      font-family: var(--font-heading);
-      font-size: clamp(26px, 3.2vw, 46px);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(32px, 4vw, 58px);
       font-weight: 400;
       color: var(--cream);
-      line-height: 1.2;
-      margin-bottom: 28px;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      margin-bottom: 32px;
     }
 
     .about-body {
@@ -306,19 +321,38 @@
       line-height: 1.9;
       color: var(--cream-muted);
       margin-bottom: 20px;
+      max-width: 46ch;
+    }
+
+    .about-pull {
+      margin-top: 12px;
+      padding-left: 20px;
+      border-left: 2px solid var(--gold-line-strong);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(15px, 1.5vw, 19px);
+      color: var(--cream);
+      line-height: 1.5;
+      max-width: 38ch;
     }
 
     .about-image {
-      aspect-ratio: 4 / 5;
       position: relative;
       overflow: hidden;
-      background: url('brand_assets/couple-alley.png') center center / cover no-repeat;
     }
-    .about-image::after {
+
+    .about-image-bg {
+      position: absolute; inset: 0;
+      background: url('brand_assets/couple-alley.png') center 30% / cover no-repeat;
+      transition: transform 700ms cubic-bezier(0.22,1,0.36,1);
+    }
+    #about:hover .about-image-bg { transform: scale(1.03); }
+
+    /* left gradient edge on image so it bleeds softly into text panel */
+    .about-image::before {
       content: '';
-      position: absolute;
-      inset: 0;
-      border: 1px solid var(--gold-line);
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to right, rgba(13,13,13,0.55) 0%, transparent 35%);
       pointer-events: none;
     }
 
@@ -817,16 +851,15 @@
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="container">
-    <div class="about-inner">
-      <div class="about-text">
-        <span class="section-label reveal">01 — Our Story</span>
-        <h2 class="about-hed reveal reveal-d1">Born between<br>three countries.</h2>
-        <p class="about-body reveal reveal-d2">LEVANTE was founded by Hanna. Growing up between three countries gave her an early understanding that every place has two versions — the one most people see, and the one you have to be invited into. Portugal, she found, has the widest gap of any of them.</p>
-        <p class="about-body reveal reveal-d2">Every LEVANTE experience begins with a conversation and ends with something no platform can replicate. Not because of what we add — because of what we know to remove.</p>
-      </div>
-      <div class="about-image reveal reveal-d1" aria-hidden="true"></div>
-    </div>
+  <div class="about-text">
+    <span class="section-label reveal">01 — Our Story</span>
+    <h2 class="about-hed reveal reveal-d1">Born between<br>three countries.</h2>
+    <p class="about-body reveal reveal-d2">LEVANTE was founded by Hanna. Growing up between three countries gave her an early understanding that every place has two versions — the one most people see, and the one you have to be invited into. Portugal, she found, has the widest gap of any of them.</p>
+    <p class="about-body reveal reveal-d2">Every LEVANTE experience begins with a conversation and ends with something no platform can replicate. Not because of what we add — because of what we know to remove.</p>
+    <p class="about-pull reveal reveal-d2">The access is real. The introductions took years to build.</p>
+  </div>
+  <div class="about-image" aria-hidden="true">
+    <div class="about-image-bg"></div>
   </div>
 </section>
 
