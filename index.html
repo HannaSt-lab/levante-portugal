@@ -798,23 +798,46 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
-      .tours-grid      { grid-template-columns: repeat(2, 1fr); }
+      .tours-grid { grid-template-columns: repeat(2, 1fr); }
       .tour-card:nth-child(3n) { border-right: 1px solid var(--gold-line); }
       .tour-card:nth-child(2n) { border-right: none; }
     }
 
     @media (max-width: 768px) {
-      #hero { grid-template-columns: 1fr; }
-      .hero-image-panel { height: 56vw; min-height: 240px; }
-      .about-inner      { grid-template-columns: 1fr; }
-      .about-image      { order: -1; aspect-ratio: 3/2; }
-      .services-grid    { grid-template-columns: 1fr; }
-      .tours-grid       { grid-template-columns: 1fr; }
+      /* Header — hide nav, keep wordmark + CTA */
+      .header-nav  { display: none; }
+      header       { grid-template-columns: 1fr auto; }
+
+      /* Hero — single column, image becomes a short cinematic strip below text */
+      #hero                { grid-template-columns: 1fr; min-height: auto; }
+      .hero-text-panel     { padding: 100px var(--pad-x) 56px; }
+      .hero-image-panel    { height: 52vw; min-height: 220px; }
+
+      /* About — stack vertically, image above text */
+      #about               { grid-template-columns: 1fr; min-height: auto; }
+      .about-image         { height: 58vw; min-height: 260px; order: -1; }
+      .about-text          { padding: 52px var(--pad-x); }
+
+      /* Services */
+      .services-grid       { grid-template-columns: 1fr; }
+
+      /* Tours */
+      .tours-grid          { grid-template-columns: 1fr; }
       .tour-card:nth-child(n) { border-right: none; }
-      .process-grid     { grid-template-columns: 1fr; gap: 40px; }
-      .process-step     { padding: 0; border-right: none; }
-      .footer-inner     { flex-direction: column; gap: 24px; text-align: center; }
-      .footer-links     { flex-wrap: wrap; justify-content: center; }
+
+      /* Process */
+      .process-grid        { grid-template-columns: 1fr; gap: 40px; }
+      .process-step        { padding: 0; border-right: none !important; }
+
+      /* Footer */
+      .footer-inner        { flex-direction: column; gap: 24px; text-align: center; }
+      .footer-links        { flex-wrap: wrap; justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-actions        { flex-direction: column; }
+      .btn-primary,
+      .btn-secondary       { width: 100%; justify-content: center; }
     }
   </style>
 </head>
