@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — LEVANTE</title>
+  <meta name="description" content="LEVANTE is a Lisbon-based private tour operator. Founded by Hanna. Off-script Portugal, designed around you.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --black:       #0D0D0D;
+      --cream:       #F5EFE0;
+      --gold:        #C9A96E;
+      --cream-muted: rgba(245, 239, 224, 0.58);
+      --gold-line:   rgba(201, 169, 110, 0.25);
+      --gold-line-strong: rgba(201, 169, 110, 0.5);
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+
+      --container: 1320px;
+      --pad-x:     clamp(24px, 5.5vw, 88px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none;
+      opacity: 0.07;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23g)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+    }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 880ms cubic-bezier(0.22,1,0.36,1), transform 880ms cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 80ms; }
+    .reveal-d2 { transition-delay: 160ms; }
+    .reveal-d3 { transition-delay: 240ms; }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 200;
+      height: 64px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 var(--pad-x);
+      background: rgba(13,13,13,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--gold-line);
+    }
+
+    .header-wordmark {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .header-nav a {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+      transition: color 260ms ease;
+    }
+    .header-nav a.cur,
+    .header-nav a:hover { color: var(--cream); }
+    .header-nav a.cur { border-bottom: 1px solid var(--gold); padding-bottom: 2px; }
+
+    .header-right { display: flex; justify-content: flex-end; }
+
+    .header-cta {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--cream);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 2px;
+      transition: color 260ms ease;
+    }
+    .header-cta:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    .about-hero {
+      position: relative;
+      min-height: clamp(480px, 62vh, 720px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-top: 64px;
+    }
+
+    .about-hero-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(56px, 7vw, 96px) clamp(40px, 5vw, 72px) clamp(56px, 7vw, 96px) var(--pad-x);
+      background: var(--black);
+      position: relative;
+      z-index: 2;
+    }
+
+    .about-hero-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .about-hero-hed {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(44px, 6vw, 84px);
+      line-height: 0.97;
+      letter-spacing: -0.015em;
+      color: var(--cream);
+      margin-bottom: 32px;
+    }
+
+    .about-hero-sub {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(16px, 1.6vw, 21px);
+      line-height: 1.45;
+      color: var(--cream-muted);
+      max-width: 36ch;
+    }
+
+    .about-hero-image {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-hero-image::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to right, #0D0D0D 0%, rgba(13,13,13,0.5) 30%, transparent 70%),
+        url('brand_assets/woman-coast.png') center center / cover no-repeat;
+      z-index: 1;
+    }
+
+    /* ── NARRATIVE ── */
+    .about-narrative {
+      padding: clamp(88px, 11vw, 152px) 0;
+      border-bottom: 1px solid var(--gold-line);
+    }
+
+    .narrative-inner {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: clamp(48px, 7vw, 96px);
+      align-items: start;
+    }
+
+    .narrative-aside {
+      position: sticky;
+      top: 96px;
+    }
+
+    .narrative-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .narrative-name {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(22px, 2.5vw, 32px);
+      line-height: 1.1;
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+
+    .narrative-role {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+    }
+
+    .narrative-portrait {
+      width: 100%;
+      max-width: 260px;
+      aspect-ratio: 3 / 4;
+      background: url('brand_assets/woman-beach.png') center 20% / cover no-repeat;
+      margin-top: 28px;
+    }
+
+    .narrative-body {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .narrative-body p {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(18px, 1.9vw, 26px);
+      line-height: 1.45;
+      color: var(--cream);
+      letter-spacing: -0.005em;
+    }
+
+    .narrative-body p.body-small {
+      font-family: var(--font-body);
+      font-style: normal;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--cream-muted);
+    }
+
+    .narrative-pull {
+      margin: 12px 0;
+      padding-left: 24px;
+      border-left: 2px solid var(--gold-line-strong);
+    }
+
+    .narrative-pull p {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(20px, 2.2vw, 30px) !important;
+      color: var(--cream) !important;
+    }
+
+    /* ── VALUES ── */
+    .about-values {
+      padding: clamp(88px, 11vw, 152px) 0;
+      border-bottom: 1px solid var(--gold-line);
+    }
+
+    .values-head {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 48px;
+      align-items: end;
+      margin-bottom: clamp(56px, 7vw, 96px);
+    }
+
+    .values-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .values-hed {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(28px, 3.5vw, 50px);
+      line-height: 1.05;
+      color: var(--cream);
+      letter-spacing: -0.01em;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--gold-line);
+    }
+
+    .value-item {
+      background: var(--black);
+      padding: clamp(32px, 4vw, 52px);
+    }
+
+    .value-num {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(52px, 6vw, 80px);
+      line-height: 1;
+      color: var(--gold);
+      opacity: 0.22;
+      margin-bottom: 16px;
+    }
+
+    .value-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(18px, 1.8vw, 24px);
+      color: var(--cream);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .value-body {
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--cream-muted);
+    }
+
+    /* ── CTA ── */
+    .about-cta {
+      padding: clamp(88px, 11vw, 152px) 0;
+      text-align: center;
+    }
+
+    .about-cta-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+    }
+
+    .about-cta h2 {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(30px, 4vw, 56px);
+      line-height: 1.1;
+      color: var(--cream);
+      max-width: 22ch;
+      margin: 0 auto 40px;
+      letter-spacing: -0.01em;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      height: 52px;
+      padding: 0 36px;
+      background: var(--gold);
+      color: var(--black);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 15px;
+      letter-spacing: 0.04em;
+      transition: background 260ms ease, transform 200ms ease;
+    }
+    .btn-primary:hover { background: var(--gold-hover, #d9be8a); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      height: 52px;
+      padding: 0 36px;
+      border: 1px solid var(--gold-line-strong);
+      color: var(--cream);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 15px;
+      letter-spacing: 0.04em;
+      transition: border-color 260ms ease, color 260ms ease, transform 200ms ease;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-ghost:active { transform: scale(0.98); }
+    .btn-ghost:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--gold-line);
+      padding: 40px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-wordmark {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    .footer-center {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 12px;
+      color: var(--cream-muted);
+    }
+
+    .footer-right { display: flex; gap: 28px; }
+
+    .footer-link {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 12px;
+      color: var(--cream-muted);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 1px;
+      transition: color 260ms ease, border-color 260ms ease;
+    }
+    .footer-link:hover { color: var(--gold); border-color: var(--gold); }
+
+    .footer-copy {
+      display: block;
+      text-align: center;
+      font-size: 11px;
+      color: var(--cream-muted);
+      letter-spacing: 0.08em;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gold-line);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .about-hero { grid-template-columns: 1fr; min-height: auto; }
+      .about-hero-image { height: clamp(300px, 45vw, 480px); }
+      .about-hero-image::before { background-position: center 30%; }
+      .narrative-inner { grid-template-columns: 1fr; }
+      .narrative-aside { position: static; display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: start; }
+      .narrative-portrait { margin-top: 0; max-width: 180px; }
+      .values-head { grid-template-columns: 1fr; gap: 16px; }
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .values-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; gap: 20px; text-align: center; }
+      .cta-buttons { flex-direction: column; }
+      .header-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="header-wordmark" href="/">Levante</a>
+  <nav class="header-nav">
+    <a href="tours.html">Journeys</a>
+    <a href="about.html" class="cur">About</a>
+    <a href="contact.html">Begin</a>
+  </nav>
+  <div class="header-right">
+    <a class="header-cta" href="contact.html">Begin a conversation</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="about-hero">
+  <div class="about-hero-text">
+    <span class="about-hero-label reveal">The curator</span>
+    <h1 class="about-hero-hed reveal reveal-d1">I know what<br>Portugal misses.</h1>
+    <p class="about-hero-sub reveal reveal-d2">LEVANTE exists in the gap between the visible version of a country and the one you have to be invited into.</p>
+  </div>
+  <div class="about-hero-image"></div>
+</div>
+
+<!-- NARRATIVE -->
+<section class="about-narrative">
+  <div class="container">
+    <div class="narrative-inner">
+      <div class="narrative-aside reveal">
+        <div class="narrative-label">Founded by</div>
+        <div class="narrative-name">Hanna</div>
+        <div class="narrative-role">Founder · Curator</div>
+        <div class="narrative-portrait"></div>
+      </div>
+
+      <div class="narrative-body">
+        <p class="reveal">I grew up between Lisbon and London. Between two cities that each think they invented cool, each convinced the other one doesn't understand it.</p>
+
+        <div class="narrative-pull reveal reveal-d1">
+          <p>That in-between position teaches you something: every place has two versions. The one in the guide, and the one the guide can't reach.</p>
+        </div>
+
+        <p class="body-small reveal reveal-d1">I spent years inside both Lisbons. Working with the people who made the city rather than the ones who described it. Knowing which wine list was put together by someone who cared, and which was put together by someone who googled. Learning which introductions took years to earn, and which you simply can't buy.</p>
+
+        <p class="body-small reveal reveal-d2">LEVANTE started because people kept asking me to share it. Not clients at first — friends, then friends of friends, then people who found me some other way. The question was always the same: I'm going to Portugal. What do you actually know?</p>
+
+        <p class="body-small reveal reveal-d2">Now I build itineraries for a small number of people each year. No algorithm, no template. Three weeks of work before you arrive. The kind of preparation that means when you sit down to dinner in a room of nine people, you're there because we thought about who you are.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="about-values">
+  <div class="container">
+    <div class="values-head">
+      <span class="values-label reveal">How we work</span>
+      <h2 class="values-hed reveal reveal-d1">The things we won't compromise on.</h2>
+    </div>
+
+    <div class="values-grid">
+      <div class="value-item reveal">
+        <div class="value-num">01</div>
+        <div class="value-title">One party at a time.</div>
+        <p class="value-body">Each journey is designed for one group, not adapted from a menu. We take on a limited number of guests per year so that this stays true.</p>
+      </div>
+
+      <div class="value-item reveal reveal-d1">
+        <div class="value-num">02</div>
+        <div class="value-title">No commissions. No hotel deals.</div>
+        <p class="value-body">We recommend what we would stay in ourselves. Hotels and restaurants earn their place by being right, not by having a relationship with us.</p>
+      </div>
+
+      <div class="value-item reveal reveal-d2">
+        <div class="value-num">03</div>
+        <div class="value-title">The access is real.</div>
+        <p class="value-body">When we say a private workshop, a closed vineyard, a kitchen table — it means we've sat there. The introductions are ours to make because we made them first.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="about-cta">
+  <div class="container">
+    <p class="about-cta-label reveal">Begin</p>
+    <h2 class="reveal reveal-d1">Your Portugal. We'll design it around you.</h2>
+    <div class="cta-buttons reveal reveal-d2">
+      <a class="btn-primary" href="contact.html">Schedule a conversation</a>
+      <a class="btn-ghost" href="tours.html">See the journeys</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a class="footer-wordmark" href="/">Levante</a>
+      <span class="footer-center">Lisbon, Portugal.</span>
+      <div class="footer-right">
+        <a class="footer-link" href="#">Instagram</a>
+        <a class="footer-link" href="mailto:hello@levante.pt">hello@levante.pt</a>
+      </div>
+    </div>
+    <span class="footer-copy">© 2025 LEVANTE. By introduction.</span>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

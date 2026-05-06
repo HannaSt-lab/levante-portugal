@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes — LEVANTE</title>
+  <meta name="description" content="Dispatches from Portugal. On wine, light, cities, and how to move through them. By LEVANTE.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Playfair+Display:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --black:       #0D0D0D;
+      --cream:       #F5EFE0;
+      --gold:        #C9A96E;
+      --cream-muted: rgba(245, 239, 224, 0.58);
+      --gold-line:   rgba(201, 169, 110, 0.25);
+      --gold-line-strong: rgba(201, 169, 110, 0.5);
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+
+      --container: 1320px;
+      --pad-x:     clamp(24px, 5.5vw, 88px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none;
+      opacity: 0.07;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23g)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 var(--pad-x);
+    }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 880ms cubic-bezier(0.22,1,0.36,1), transform 880ms cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 80ms; }
+    .reveal-d2 { transition-delay: 160ms; }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 200;
+      height: 64px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 var(--pad-x);
+      background: rgba(13,13,13,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--gold-line);
+    }
+
+    .header-wordmark {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .header-nav a {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+      transition: color 260ms ease;
+    }
+    .header-nav a.cur,
+    .header-nav a:hover { color: var(--cream); }
+    .header-nav a.cur { border-bottom: 1px solid var(--gold); padding-bottom: 2px; }
+
+    .header-right { display: flex; justify-content: flex-end; }
+
+    .header-cta {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--cream);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 2px;
+      transition: color 260ms ease;
+    }
+    .header-cta:hover { color: var(--gold); }
+
+    /* ── PAGE HEADER ── */
+    .page-head {
+      padding: clamp(120px, 14vw, 180px) 0 clamp(56px, 7vw, 88px);
+      border-bottom: 1px solid var(--gold-line);
+    }
+
+    .page-head-inner {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 48px;
+      align-items: end;
+    }
+
+    .page-hed {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(52px, 7vw, 96px);
+      line-height: 0.98;
+      letter-spacing: -0.015em;
+      color: var(--cream);
+    }
+
+    .page-sub {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(15px, 1.5vw, 20px);
+      line-height: 1.5;
+      color: var(--cream-muted);
+      padding-left: 16px;
+      border-left: 1px solid var(--gold-line-strong);
+    }
+
+    /* ── FEATURED POST ── */
+    .blog-featured {
+      padding: clamp(64px, 8vw, 112px) 0;
+      border-bottom: 1px solid var(--gold-line);
+    }
+
+    .featured-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 5vw, 72px);
+      align-items: center;
+    }
+
+    .featured-image {
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .featured-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 600ms cubic-bezier(0.22,1,0.36,1);
+    }
+    .featured-inner:hover .featured-image img { transform: scale(1.04); }
+
+    .featured-kicker {
+      font-family: var(--font-display);
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .featured-label {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--cream-muted);
+      margin-bottom: 28px;
+    }
+
+    .featured-hed {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(28px, 3.5vw, 52px);
+      line-height: 1.05;
+      color: var(--cream);
+      letter-spacing: -0.01em;
+      margin-bottom: 20px;
+    }
+
+    .featured-excerpt {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--cream-muted);
+      max-width: 44ch;
+      margin-bottom: 28px;
+    }
+
+    .post-link {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 13px;
+      color: var(--cream);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 2px;
+      transition: color 260ms ease;
+    }
+    .post-link::after { content: ' →'; font-style: normal; color: var(--gold); }
+    .post-link:hover { color: var(--gold); }
+    .post-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+    /* ── GRID ── */
+    .blog-grid-section {
+      padding: clamp(64px, 8vw, 112px) 0;
+      border-bottom: 1px solid var(--gold-line);
+    }
+
+    .blog-grid-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: clamp(40px, 5vw, 64px);
+    }
+
+    .blog-grid-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--gold-line);
+    }
+
+    .blog-card {
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .blog-card-image {
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .blog-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 560ms cubic-bezier(0.22,1,0.36,1);
+    }
+    .blog-card:hover .blog-card-image img { transform: scale(1.05); }
+
+    .blog-card-body {
+      padding: 28px 28px 32px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-kicker {
+      font-family: var(--font-display);
+      font-size: 9px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .card-hed {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(18px, 1.8vw, 24px);
+      line-height: 1.15;
+      color: var(--cream);
+      margin-bottom: 12px;
+    }
+
+    .card-excerpt {
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--cream-muted);
+      flex: 1;
+      margin-bottom: 20px;
+    }
+
+    .card-date {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--cream-muted);
+      opacity: 0.6;
+    }
+
+    /* ── SUBSCRIBE ── */
+    .blog-subscribe {
+      padding: clamp(80px, 10vw, 140px) 0;
+      text-align: center;
+    }
+
+    .subscribe-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .subscribe-hed {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(28px, 3.8vw, 52px);
+      line-height: 1.1;
+      color: var(--cream);
+      max-width: 24ch;
+      margin: 0 auto 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .subscribe-sub {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--cream-muted);
+      margin-bottom: 40px;
+    }
+
+    .subscribe-form {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .subscribe-input {
+      flex: 1;
+      height: 52px;
+      padding: 0 20px;
+      background: rgba(245,239,224,0.06);
+      border: 1px solid var(--gold-line-strong);
+      border-right: none;
+      color: var(--cream);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 260ms ease;
+    }
+    .subscribe-input::placeholder { color: var(--cream-muted); }
+    .subscribe-input:focus { border-color: var(--gold); }
+
+    .subscribe-btn {
+      height: 52px;
+      padding: 0 28px;
+      background: var(--gold);
+      border: none;
+      color: var(--black);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 260ms ease;
+    }
+    .subscribe-btn:hover { background: #d9be8a; }
+    .subscribe-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--gold-line);
+      padding: 40px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-wordmark {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    .footer-center {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 12px;
+      color: var(--cream-muted);
+    }
+
+    .footer-right { display: flex; gap: 28px; }
+
+    .footer-link {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 12px;
+      color: var(--cream-muted);
+      border-bottom: 1px solid transparent;
+      padding-bottom: 1px;
+      transition: color 260ms ease, border-color 260ms ease;
+    }
+    .footer-link:hover { color: var(--gold); border-color: var(--gold); }
+
+    .footer-copy {
+      display: block;
+      text-align: center;
+      font-size: 11px;
+      color: var(--cream-muted);
+      letter-spacing: 0.08em;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gold-line);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .featured-inner { grid-template-columns: 1fr; }
+      .blog-grid { grid-template-columns: repeat(2, 1fr); }
+      .page-head-inner { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    @media (max-width: 600px) {
+      .blog-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; gap: 20px; text-align: center; }
+      .subscribe-form { flex-direction: column; }
+      .subscribe-input { border-right: 1px solid var(--gold-line-strong); border-bottom: none; }
+      .header-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="header-wordmark" href="/">Levante</a>
+  <nav class="header-nav">
+    <a href="tours.html">Journeys</a>
+    <a href="about.html">About</a>
+    <a href="blog.html" class="cur">Notes</a>
+    <a href="contact.html">Begin</a>
+  </nav>
+  <div class="header-right">
+    <a class="header-cta" href="contact.html">Begin a conversation</a>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="page-head">
+      <div class="page-head-inner">
+        <h1 class="page-hed reveal">Dispatches<br>from Portugal.</h1>
+        <p class="page-sub reveal reveal-d2">On wine, light, cities, and how to move through them. Written from Lisbon, occasionally from the road.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED -->
+  <div class="container">
+    <section class="blog-featured">
+      <a class="featured-inner" href="#">
+        <div class="featured-image reveal">
+          <img src="brand_assets/douro-wine.png" alt="Douro Valley vineyards at dusk">
+        </div>
+        <div class="featured-body">
+          <p class="featured-kicker reveal">Wine · Douro Valley</p>
+          <p class="featured-label reveal reveal-d1">April 2025 · Featured</p>
+          <h2 class="featured-hed reveal reveal-d1">The quinta that doesn't take reservations — and why that's the point.</h2>
+          <p class="featured-excerpt reveal reveal-d2">There is a family on the terraced hillside above Pinhão that has been making wine since before anyone thought to call it natural. They don't have a website. The address is a set of coordinates a winemaker in Porto gave me last autumn. The wine is extraordinary.</p>
+          <span class="post-link reveal reveal-d2">Read the dispatch</span>
+        </div>
+      </a>
+    </section>
+  </div>
+
+  <!-- GRID -->
+  <div class="container">
+    <section class="blog-grid-section">
+      <div class="blog-grid-head">
+        <span class="blog-grid-label reveal">Recent notes</span>
+      </div>
+
+      <div class="blog-grid">
+        <a class="blog-card reveal" href="#">
+          <div class="blog-card-image">
+            <img src="brand_assets/praca-comercio.png" alt="Praça do Comércio at dawn">
+          </div>
+          <div class="blog-card-body">
+            <span class="card-kicker">Lisbon · Time</span>
+            <h3 class="card-hed">Why Lisbon belongs to an earlier hour.</h3>
+            <p class="card-excerpt">The city doesn't open. It transforms. Between 5am and 8am, before anyone else arrives, there's a version of Lisbon that exists only for the people who are already there.</p>
+            <span class="card-date">March 2025</span>
+          </div>
+        </a>
+
+        <a class="blog-card reveal reveal-d1" href="#">
+          <div class="blog-card-image">
+            <img src="brand_assets/alentejo-road.png" alt="Alentejo road through cork forest">
+          </div>
+          <div class="blog-card-body">
+            <span class="card-kicker">Alentejo · Food</span>
+            <h3 class="card-hed">The village baker who is also the sommelier.</h3>
+            <p class="card-excerpt">In Monsaraz, there is a man who bakes bread at 4am and opens his cellar to guests at noon. He has never advertised either. You find him by knowing someone who found him.</p>
+            <span class="card-date">February 2025</span>
+          </div>
+        </a>
+
+        <a class="blog-card reveal reveal-d2" href="#">
+          <div class="blog-card-image">
+            <img src="brand_assets/atlantic-beach.png" alt="Atlantic coast, Comporta">
+          </div>
+          <div class="blog-card-body">
+            <span class="card-kicker">Atlantic · Comporta</span>
+            <h3 class="card-hed">Comporta before the season, and after it.</h3>
+            <p class="card-excerpt">September is not the beginning of something in Comporta. It's what's left when everything performative has gone. The bone-white dunes, the quiet, the particular flatness of the Atlantic in autumn.</p>
+            <span class="card-date">January 2025</span>
+          </div>
+        </a>
+
+        <a class="blog-card reveal" href="#">
+          <div class="blog-card-image">
+            <img src="brand_assets/azulejo-interior-light.png" alt="Azulejo tile detail">
+          </div>
+          <div class="blog-card-body">
+            <span class="card-kicker">Architecture · Lisbon</span>
+            <h3 class="card-hed">On azulejo: what the tiles are actually saying.</h3>
+            <p class="card-excerpt">Portugal's tiles are not decoration. They are a record — of maritime routes, of Islamic geometry, of a specific anxiety about what happens when the sun gets in. A workshop visit with the person who still cares.</p>
+            <span class="card-date">December 2024</span>
+          </div>
+        </a>
+
+        <a class="blog-card reveal reveal-d1" href="#">
+          <div class="blog-card-image">
+            <img src="brand_assets/couple-wine.png" alt="Wine tasting, quinta">
+          </div>
+          <div class="blog-card-body">
+            <span class="card-kicker">Wine · Vinho Verde</span>
+            <h3 class="card-hed">The vinho verde they don't export — and why they don't.</h3>
+            <p class="card-excerpt">Most vinho verde is made to travel. Some of it is made to be drunk on the quinta, at the table where it was bottled, by people who already know they won't be going anywhere after this glass.</p>
+            <span class="card-date">November 2024</span>
+          </div>
+        </a>
+
+        <a class="blog-card reveal reveal-d2" href="#">
+          <div class="blog-card-image">
+            <img src="brand_assets/avenida-fashion.png" alt="Lisbon street, Avenida da Liberdade">
+          </div>
+          <div class="blog-card-body">
+            <span class="card-kicker">Design · Lisbon</span>
+            <h3 class="card-hed">The Lisbon aesthetic is not what you think it is.</h3>
+            <p class="card-excerpt">The visual language being built in converted river warehouses and Mouraria ateliers right now has almost nothing to do with the pastel-tiled version that fills certain mood boards. It's harder, and stranger, and considerably more interesting.</p>
+            <span class="card-date">October 2024</span>
+          </div>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <!-- SUBSCRIBE -->
+  <div class="container">
+    <section class="blog-subscribe">
+      <p class="subscribe-label reveal">Stay in the loop</p>
+      <h2 class="subscribe-hed reveal reveal-d1">Occasional dispatches. No noise.</h2>
+      <p class="subscribe-sub reveal reveal-d2">A few times a year. When something is worth saying.</p>
+      <form class="subscribe-form reveal reveal-d2" onsubmit="return false;">
+        <input class="subscribe-input" type="email" placeholder="Your email address">
+        <button class="subscribe-btn" type="submit">Subscribe</button>
+      </form>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a class="footer-wordmark" href="/">Levante</a>
+      <span class="footer-center">Lisbon, Portugal.</span>
+      <div class="footer-right">
+        <a class="footer-link" href="#">Instagram</a>
+        <a class="footer-link" href="mailto:hello@levante.pt">hello@levante.pt</a>
+      </div>
+    </div>
+    <span class="footer-copy">© 2025 LEVANTE. By introduction.</span>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
