@@ -783,6 +783,11 @@
             </div>
 
             <div class="form-field reveal reveal-d3">
+              <label for="country">Your country</label>
+              <input type="text" id="country" name="country" autocomplete="country-name" placeholder="e.g. United Kingdom, United States">
+            </div>
+
+            <div class="form-field reveal reveal-d3">
               <label for="source">How did you find us? <span style="opacity:.4;font-style:italic;letter-spacing:0">optional</span></label>
               <select id="source" name="source">
                 <option value="">Select one</option>
@@ -884,6 +889,7 @@
         company:  form.querySelector('#company').value.trim(),
         dates:    form.querySelector('#dates').value.trim(),
         message,
+        country:  form.querySelector('#country').value.trim(),
         source:   form.querySelector('#source').value,
         submitted_at: new Date().toISOString(),
         page: 'contact.html'
