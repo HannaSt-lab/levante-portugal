@@ -74,7 +74,7 @@
       position: fixed;
       inset: 0 0 auto;
       z-index: 200;
-      height: 64px;
+      height: 80px;
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
@@ -86,12 +86,9 @@
     }
 
     .header-wordmark {
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 400;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: var(--cream);
+      display: block;
+      height: 72px;
+      width: auto;
     }
 
     .header-nav {
@@ -407,12 +404,9 @@
     }
 
     .footer-wordmark {
-      font-family: var(--font-display);
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: var(--cream);
+      display: block;
+      height: 64px;
+      width: auto;
     }
 
     .footer-center {
@@ -474,7 +468,7 @@
 <body>
 
 <header>
-  <a class="header-wordmark" href="/">Levante</a>
+  <a href="/"><img class="header-wordmark" src="../brand_assets/logos/levante_logo.jpg" alt="LEVANTE"></a>
   <nav class="header-nav">
     <a href="../tours.html">Journeys</a>
     <a href="../about.html">About</a>
@@ -596,7 +590,7 @@
 <footer>
   <div class="container">
     <div class="footer-inner">
-      <a class="footer-wordmark" href="/">Levante</a>
+      <a href="/"><img class="footer-wordmark" src="../brand_assets/logos/levante_logo.jpg" alt="LEVANTE"></a>
       <span class="footer-center">Lisbon, Portugal.</span>
       <div class="footer-right">
         <a class="footer-link" href="#">Instagram</a>
