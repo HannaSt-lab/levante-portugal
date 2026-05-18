@@ -4,3 +4,6 @@ temporary screenshots/
 *.tmp.png
 
 .vercel
+
+# Large video files — served from pinned GitHub commit URL instead
+brand_assets/*.mp4
