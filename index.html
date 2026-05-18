@@ -158,26 +158,39 @@
       grid-template-columns: 1fr 1fr;
       border-bottom: 1px solid var(--gold-line);
       overflow: hidden;
-      background: url('brand_assets/couple-cliff.png') center center / cover no-repeat;
+      background: var(--black);
     }
 
-    /* full-bleed gradient: text side softly darkened, photo wide open on right */
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 1400ms ease;
+    }
+    .hero-video.loaded { opacity: 1; }
+
+    /* gradient: text side darkened for readability, opens on right for video */
     #hero::before {
       content: '';
-      position: absolute; inset: 0; z-index: 0;
+      position: absolute; inset: 0; z-index: 1;
       background:
         linear-gradient(to right,
-          rgba(13,13,13,0.86) 0%,
-          rgba(13,13,13,0.74) 24%,
-          rgba(13,13,13,0.48) 44%,
-          rgba(13,13,13,0.18) 64%,
-          rgba(13,13,13,0.04) 82%,
+          rgba(13,13,13,0.88) 0%,
+          rgba(13,13,13,0.76) 24%,
+          rgba(13,13,13,0.50) 44%,
+          rgba(13,13,13,0.22) 64%,
+          rgba(13,13,13,0.06) 82%,
           transparent 100%
         );
     }
 
     .hero-text-panel {
-      position: relative; z-index: 1;
+      position: relative; z-index: 2;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -186,7 +199,7 @@
     }
 
     .hero-image-panel {
-      position: relative; z-index: 1;
+      position: relative; z-index: 2;
     }
 
     .hero-eyebrow {
@@ -860,6 +873,9 @@
 
 <!-- HERO -->
 <section id="hero">
+  <video class="hero-video" autoplay muted loop playsinline poster="brand_assets/couple-cliff.png">
+    <source src="brand_assets/7d237c0b8221b1b2652718755ea77793_1779115357.mp4" type="video/mp4">
+  </video>
   <div class="hero-text-panel">
     <p class="hero-eyebrow reveal">Off-Script Portugal</p>
     <h1 class="hero-headline reveal reveal-d1">Portugal,<br>on your terms.</h1>
@@ -1044,6 +1060,18 @@
 </footer>
 
 <script>
+  // Hero video fade-in once ready
+  const heroVideo = document.querySelector('.hero-video');
+  if (heroVideo) {
+    const markLoaded = () => heroVideo.classList.add('loaded');
+    if (heroVideo.readyState >= 3) {
+      markLoaded();
+    } else {
+      heroVideo.addEventListener('canplaythrough', markLoaded, { once: true });
+      heroVideo.addEventListener('playing', markLoaded, { once: true });
+    }
+  }
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(el => {
       if (el.isIntersecting) {
